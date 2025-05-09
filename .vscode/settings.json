@@ -1,0 +1,52 @@
+{
+  "eslint.enable": true,
+  "eslint.run": "onSave",
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always"
+  },
+
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.semi": true,
+  "prettier.singleQuote": true,
+  "prettier.tabWidth": 2,
+  "prettier.useTabs": false,
+  "prettier.endOfLine": "lf",
+  "prettier.printWidth": 80,
+  "prettier.trailingComma": "es5",
+  "prettier.arrowParens": "always",
+  "prettier.bracketSpacing": true,
+  "prettier.singleAttributePerLine": true,
+  "prettier.wrapAttributes": "preserve",
+  "prettier.operatorLinebreak": "before",
+
+  "files.autoSave": "onFocusChange",
+  "eslint.lintTask.enable": true,
+
+  "eslint.quiet": false,
+  
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "invalid",
+        "settings": {
+          "foreground": "#ff0000",
+          "fontStyle": "underline"
+        }
+      },
+      {
+        "scope": "warning",
+        "settings": {
+          "foreground": "#ffcc00",
+          "fontStyle": "underline"
+        }
+      }
+    ]
+  },
+
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
