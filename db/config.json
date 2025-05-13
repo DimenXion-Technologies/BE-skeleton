@@ -1,0 +1,15 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "PostgreSQL",
+      "Group": "Servers",
+      "Host": "hims_postgres",
+      "Port": 5432,
+      "MaintenanceDB": "hims",
+      "Username": "admin",
+      "Password": "admin",
+      "SSLMode": "prefer",
+      "ConnectNow": true
+    }
+  }
+}
