@@ -46,7 +46,6 @@ User.init(
     modelName: 'User',
     tableName: 'users',
     timestamps: true,
-    underscored: true,
     hooks: {
       // eslint-disable-next-line no-unused-vars
       beforeCreate: async (user, options) => {

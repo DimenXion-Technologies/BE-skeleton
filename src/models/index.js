@@ -17,6 +17,10 @@ export const sequelize = new Sequelize(
     port: config.DB_PORT,
     dialect: 'mysql',
     logging: config.LOG_DB_QUERY ? console.log : false,
+    define: {
+      underscored: true,
+      timestamps: true,
+    },
   }
 );
 

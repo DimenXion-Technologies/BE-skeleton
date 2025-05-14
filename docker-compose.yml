@@ -14,6 +14,8 @@ services:
       MYSQL_DATABASE: hims
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
+      TZ: UTC
+    command: --default-time-zone='+00:00'
     volumes:
       - ./db:/var/lib/mysql
     healthcheck:
