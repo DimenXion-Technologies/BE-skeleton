@@ -1,14 +1,12 @@
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath, pathToFileURL } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const router = express.Router();
-
-const __dirname = path.join(
-  path.dirname(process.env.npm_package_json),
-  'src',
-  'routes'
-);
 
 const ROUTES_DIR = __dirname;
 const registeredRoutes = [];
@@ -29,12 +27,14 @@ async function loadRoutesFromDir(dirPath) {
       const parsed = path.parse(relativePath);
       const baseRoute =
         '/' + path.join(parsed.dir, parsed.name).replace(/\\/g, '/');
-      const { default: model } = await import(
-        `${path.join(dirPath, entry.name)}`
-      );
-      registeredRoutes.push({ path: baseRoute });
-      router.use(baseRoute, model);
-      //   console.log(`✅ Loaded route: ${baseRoute}`);
+      try {
+        const moduleUrl = pathToFileURL(fullPath).href;
+        const { default: model } = await import(moduleUrl);
+        registeredRoutes.push({ path: baseRoute });
+        router.use(baseRoute, model);
+      } catch (err) {
+        console.error(`❌ Failed to load route at ${fullPath}:`, err);
+      }
     }
   }
 }

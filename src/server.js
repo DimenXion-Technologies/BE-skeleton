@@ -1,8 +1,8 @@
 import { isCelebrateError } from 'celebrate';
-import app from './app';
-import config from './config';
-import { initializeModels, sequelize } from './models';
-import { getRouter } from './routes';
+import app from './app.js';
+import config from './config/index.js';
+import { initializeModels, sequelize } from './models/index.js';
+import { getRouter } from './routes/index.js';
 
 let server;
 

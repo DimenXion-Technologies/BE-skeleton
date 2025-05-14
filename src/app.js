@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import corsConfig from './config/cors';
-import cookieConfig from './config/cookie';
+import corsConfig from './config/cors.js';
+import cookieConfig from './config/cookie.js';
 
 const app = express();
 

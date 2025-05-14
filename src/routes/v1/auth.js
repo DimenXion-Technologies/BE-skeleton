@@ -3,8 +3,8 @@ import {
   loginValidator,
   refreshTokenValidator,
   registerValidator,
-} from '../../validations/auth';
-import { login, register } from '../../controllers/authController';
+} from '../../validations/auth.js';
+import { login, register } from '../../controllers/authController.js';
 
 const router = express.Router();
 

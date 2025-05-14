@@ -1,8 +1,8 @@
-import User from '../models/User';
-import HttpStatusCode from '../utils/http-status-code';
-import { sendError, sendSuccess } from '../utils/response';
+import User from '../models/User.js';
+import HttpStatusCode from '../utils/http-status-code.js';
+import { sendError, sendSuccess } from '../utils/response.js';
 import JWT from 'jsonwebtoken';
-import config from '../config';
+import config from '../config/index.js';
 
 const COOKIE_CONFIG = {
   maxAge: 1000 * 60 * 60 * 24 * 365,

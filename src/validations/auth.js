@@ -7,7 +7,7 @@ import {
   firstNameSchema,
   passwordSchema,
   lastNameSchema,
-} from '../utils/joi-validations';
+} from '../utils/joi-validations.js';
 
 export const loginValidator = celebrate(
   {

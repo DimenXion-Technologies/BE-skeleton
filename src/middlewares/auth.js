@@ -1,8 +1,8 @@
-import config from '../config';
-import User from '../models/User';
+import config from '../config/index.js';
+import User from '../models/User.js';
 import JWT from 'jsonwebtoken';
-import { sendError } from '../utils/response';
-import HttpStatusCode from '../utils/http-status-code';
+import { sendError } from '../utils/response.js';
+import HttpStatusCode from '../utils/http-status-code.js';
 
 const auth = async (req, res, next) => {
   try {

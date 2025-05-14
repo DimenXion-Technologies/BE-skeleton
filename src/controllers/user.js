@@ -1,4 +1,4 @@
-import { sendSuccess } from '../utils/response';
+import { sendSuccess } from '../utils/response.js';
 
 export const getMe = async (req, res) => {
   const user = req.currentUser;

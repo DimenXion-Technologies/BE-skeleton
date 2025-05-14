@@ -1,7 +1,11 @@
 import { Sequelize } from 'sequelize';
 import { readdir } from 'fs/promises';
 import path from 'path';
-import config from '../config';
+import { fileURLToPath, pathToFileURL } from 'url';
+import config from '../config/index.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Initialize Sequelize
 export const sequelize = new Sequelize(
@@ -18,25 +22,31 @@ export const sequelize = new Sequelize(
 
 const models = {};
 
-// **Function to Load Models Asynchronously**
+// Load models dynamically
 export const initializeModels = async () => {
-  const __dirname = path.join(
-    path.dirname(process.env.npm_package_json),
-    'src',
-    'models'
-  );
   const files = await readdir(__dirname);
-
   for (const file of files) {
-    if (file !== 'index.js' && file.endsWith('.js')) {
-      const { default: model } = await import(`${path.join(__dirname, file)}`);
+    // Skip index.js and non-JS files
+    if (file === 'index.js' || !file.endsWith('.js')) continue;
+    // Convert to file:// URL for ESM import
+    const filePath = path.join(__dirname, file);
+    const fileUrl = pathToFileURL(filePath);
+    try {
+      const { default: model } = await import(fileUrl.href);
+      if (!model?.name) {
+        console.warn(`⚠️ Model in ${file} has no "name" property.`);
+        continue;
+      }
+      console.log('Model loded', file);
       models[model.name] = model;
+    } catch (err) {
+      console.error(`❌ Failed to load model from ${file}:`, err);
     }
   }
 
-  // **Establish Associations**
+  // Setup associations if defined
   Object.values(models).forEach((model) => {
-    if (model.associate) {
+    if (typeof model.associate === 'function') {
       model.associate(models);
     }
   });

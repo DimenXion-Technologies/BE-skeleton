@@ -1,4 +1,4 @@
-import config from '.';
+import config from './index.js';
 
 const corsConfig = Object.freeze({
   credentials: true,
