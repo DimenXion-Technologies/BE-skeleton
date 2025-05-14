@@ -18,6 +18,8 @@ const envSchema = Joi.object({
   DB_NAME: Joi.string().required(),
   DB_USERNAME: Joi.string().required(),
   DB_PASSWORD: Joi.string().required(),
+  CORS_ALLOWED_ORIGIN: Joi.string().required(),
+  LOG_DB_QUERY: Joi.boolean().required(),
 }).unknown(); // Allows additional environment variables not explicitly listed
 
 // Validate environment variables
@@ -45,6 +47,8 @@ if (error) {
  * @property {string} DB_USERNAME
  * @property {string} DB_PASSWORD
  * @property {string} DB_PATH
+ * @property {string} CORS_ALLOWED_ORIGIN
+ * @property {boolean} LOG_DB_QUERY
  */
 
 /** @type {EnvVars} */

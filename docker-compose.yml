@@ -1,42 +1,45 @@
+version: '3.8'
+
 services:
-  hims_postgres:
+  hims_mysql:
     networks:
-      - app_network
-    image: postgres:latest
-    container_name: hims_postgres
+      - hims_network
+    image: mysql:latest
+    container_name: hims_mysql
     restart: always
-    expose:
-      - "5432"
+    ports:
+      - '3307:3306'
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: hims
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: hims
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
     volumes:
-      - ./db/data:/var/lib/postgresql/data
+      - ./db:/var/lib/mysql
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U admin']
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
       interval: 10s
       timeout: 5s
       retries: 5
 
-  hims_pgadmin:
+  hims_phpmyadmin:
     networks:
-      - app_network
-    image: dpage/pgadmin4
-    container_name: hims_pgadmin
+      - hims_network
+    image: phpmyadmin/phpmyadmin
+    container_name: hims_phpmyadmin
     restart: always
     ports:
       - '5050:80'
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    volumes:
-      - ./db/config.json:/pgadmin4/servers.json
+      PMA_HOST: hims_mysql
+      PMA_USER: admin
+      PMA_PASSWORD: admin
     depends_on:
-      hims_postgres:
+      hims_mysql:
         condition: service_healthy
+
 networks:
-  app_network:
+  hims_network:
     driver: bridge
 
 volumes:

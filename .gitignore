@@ -1,4 +1,4 @@
-db/data
+db
 dist
 node_modules
 .env

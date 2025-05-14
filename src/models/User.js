@@ -3,12 +3,6 @@ import { sequelize } from '.';
 import bcrypt from 'bcrypt';
 
 class User extends Model {
-  static associate(models) {
-    this.hasMany(models.File, { foreignKey: 'user_id' });
-    this.hasMany(models.Shipment, { foreignKey: 'user_id' });
-    this.hasMany(models.TempShipment, { foreignKey: 'user_id' });
-  }
-
   //Static method to get user by email
   static async getByEmail(email) {
     return await this.findOne({ where: { email } });
