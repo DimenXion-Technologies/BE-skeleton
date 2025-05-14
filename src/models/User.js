@@ -3,6 +3,13 @@ import { sequelize } from './index.js';
 import bcrypt from 'bcrypt';
 
 class User extends Model {
+  static associate(models) {
+    this.belongsToMany(models.Role, {
+      through: models.UserRole,
+      foreignKey: 'user_id',
+      otherKey: 'role',
+    });
+  }
   //Static method to get user by email
   static async getByEmail(email) {
     return await this.findOne({ where: { email } });
@@ -39,6 +46,7 @@ User.init(
     modelName: 'User',
     tableName: 'users',
     timestamps: true,
+    underscored: true,
     hooks: {
       // eslint-disable-next-line no-unused-vars
       beforeCreate: async (user, options) => {
