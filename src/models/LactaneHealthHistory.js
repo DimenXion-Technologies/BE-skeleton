@@ -59,12 +59,7 @@ LactaneHealthHistory.init(
   {
     sequelize,
     modelName: 'LactaneHealthHistory',
-<<<<<<< HEAD
     tableName: `${TABLE_PREFIX.LACTANE}health_histories`,
-=======
-    tableName: 'lactane_health_histories',
-    timestamps: false,
->>>>>>> 2163b3720f6a0bedda986806087b3340c2ea92a8
   }
 );
 
