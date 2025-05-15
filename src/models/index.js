@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
-import { readdir } from 'fs/promises';
 import path from 'path';
+import fs from 'fs/promises';
 import { fileURLToPath, pathToFileURL } from 'url';
 import config from '../config/index.js';
 
@@ -26,22 +26,39 @@ export const sequelize = new Sequelize(
 
 const models = {};
 
+const readModelsRecursively = async (dir) => {
+  let results = [];
+  const entries = await fs.readdir(dir, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      const nestedFiles = await readModelsRecursively(fullPath);
+      results = results.concat(nestedFiles);
+    } else if (
+      entry.isFile() &&
+      entry.name.endsWith('.js') &&
+      entry.name !== 'index.js'
+    ) {
+      results.push(fullPath);
+    }
+  }
+
+  return results;
+};
+
 // Load models dynamically
 export const initializeModels = async () => {
-  const files = await readdir(__dirname);
+  const files = await readModelsRecursively(__dirname);
   for (const file of files) {
-    // Skip index.js and non-JS files
-    if (file === 'index.js' || !file.endsWith('.js')) continue;
-    // Convert to file:// URL for ESM import
-    const filePath = path.join(__dirname, file);
-    const fileUrl = pathToFileURL(filePath);
+    // const filePath = path.join(__dirname, file);
+    const fileUrl = pathToFileURL(file);
     try {
       const { default: model } = await import(fileUrl.href);
       if (!model?.name) {
         console.warn(`⚠️ Model in ${file} has no "name" property.`);
         continue;
       }
-      console.log('Model loded', file);
       models[model.name] = model;
     } catch (err) {
       console.error(`❌ Failed to load model from ${file}:`, err);
