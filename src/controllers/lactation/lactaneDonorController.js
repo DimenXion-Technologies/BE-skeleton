@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import LactaneDonor from '../../models/LactaneDonor.js';
 import { sendSuccess, sendError } from '../../utils/response.js';
 import HttpStatusCode from '../../utils/http-status-code.js';
@@ -6,12 +7,41 @@ import paginateSequelize from '../../utils/pagination.js';
 // Create a new donor
 export const createDonor = async (req, res) => {
   try {
+    const { email, phone_number } = req.body;
+
+    // Check if a donor with the same email or mobile number already exists
+    const existingDonor = await LactaneDonor.findOne({
+      where: {
+        [Op.or]: [{ email }, { phone_number }],
+      },
+    });
+
+    if (existingDonor) {
+      return sendError(
+        res,
+        'Email or mobile number already exists',
+        HttpStatusCode.CONFLICT // 409
+      );
+    }
+
     const donor = await LactaneDonor.create(req.body);
+
     if (!donor) {
       return sendError(res, 'Failed to create donor', 400);
     }
 
-    return sendSuccess(res, null, 'Lactane Donor created successfully', 201);
+    return sendSuccess(
+      res,
+      {
+        id: donor.id,
+        first_name: donor.first_name,
+        last_name: donor.last_name,
+        email: donor.email,
+        mobile_number: donor.mobile_number,
+      },
+      'Lactane Donor created successfully',
+      201
+    );
   } catch (error) {
     return sendError(res, error.message, HttpStatusCode.BAD_REQUEST);
   }
