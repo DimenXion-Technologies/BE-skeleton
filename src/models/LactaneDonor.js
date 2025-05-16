@@ -51,25 +51,6 @@ LactaneDonor.init(
       type: DataTypes.STRING(150),
       allowNull: false,
     },
-    address: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    city: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-    },
-    state: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-    },
-    postal_code: {
-      type: DataTypes.STRING(20),
-      allowNull: false,
-    },
-    country: {
-      type: DataTypes.STRING(100),
-    },
     status: {
       type: DataTypes.ENUM('Pending', 'Active', 'Inactive', 'Disqualified'),
       defaultValue: 'Pending',
