@@ -5,6 +5,8 @@ const HttpStatusCode = {
   FORBIDDEN: 403,
   NOT_FOUND: 404,
   INTERNAL_SERVER: 500,
+  CONFLICT: 409,
+  CREATED: 201,
 };
 
 export default HttpStatusCode;
