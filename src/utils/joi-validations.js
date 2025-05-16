@@ -21,6 +21,13 @@ export const emailSchema = Joi.string().email().required().messages({
   'string.email': 'Invalid email',
 });
 
+export const baseNameSchema = Joi.string().min(3).max(30);
+
+export const phoneNumberSchema = Joi.string()
+  .required()
+  .pattern(/^(\+91[\-\s]?)?[6-9]\d{9}$/)
+  .message('Phone number must be a valid Indian mobile number');
+
 export const accessTokenSchema = Joi.string().required();
 
 export const refreshTokenSchema = Joi.string().required();
