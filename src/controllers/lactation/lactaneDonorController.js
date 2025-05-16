@@ -5,6 +5,19 @@ import HttpStatusCode from '../../utils/http-status-code.js';
 import paginateSequelize from '../../utils/pagination.js';
 
 // Create a new donor
+// export const createDonor = async (req, res) => {
+//   try {
+//     const donor = await LactaneDonor.create(req.body);
+//     if (!donor) {
+//       return sendError(res, 'Failed to create donor', 400);
+//     }
+
+//     return sendSuccess(res, null, 'Lactane Donor created successfully', 201);
+//   } catch (error) {
+//     return sendError(res, error.message, HttpStatusCode.BAD_REQUEST);
+//   }
+// };
+
 export const createDonor = async (req, res) => {
   try {
     const { email, phone_number } = req.body;
