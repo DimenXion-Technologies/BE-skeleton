@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from './index.js';
-import TABLE_PREFIX from '../constants.js/module-table-prefix.js';
+import TABLE_PREFIX from '../constants.js/model-table-prefix.js';
 
 class LactaneDonor extends Model {
   static associate(models) {
@@ -14,10 +14,9 @@ class LactaneDonor extends Model {
 LactaneDonor.init(
   {
     donor_id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.INTEGER,
       primaryKey: true,
-      allowNull: false,
+      autoIncrement: true,
     },
     uhid: {
       type: DataTypes.STRING(50),

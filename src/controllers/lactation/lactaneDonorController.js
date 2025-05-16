@@ -1,4 +1,4 @@
-import LactaneDonor from '../../models/lactaneDonor.js';
+import LactaneDonor from '../../models/LactaneDonor.js';
 import { sendSuccess, sendError } from '../../utils/response.js';
 import HttpStatusCode from '../../utils/http-status-code.js';
 import paginateSequelize from '../../utils/pagination.js';
@@ -8,21 +8,12 @@ export const createDonor = async (req, res) => {
   try {
     const donor = await LactaneDonor.create(req.body);
     if (!donor) {
-      return res.status(400).json({ message: 'Failed to create donor' });
+      return sendError(res, 'Failed to create donor', 400);
     }
-    sendSuccess(
-      res,
-      {
-        id: donor.id,
-        first_name: donor.first_name,
-        last_name: donor.last_name,
-        email: donor.email,
-      },
-      'Lactane Donor created successfully',
-      201
-    );
+
+    return sendSuccess(res, null, 'Lactane Donor created successfully', 201);
   } catch (error) {
-    sendError(res, error.message, HttpStatusCode.BAD_REQUEST);
+    return sendError(res, error.message, HttpStatusCode.BAD_REQUEST);
   }
 };
 
@@ -58,10 +49,14 @@ export const getAllDonors = async (req, res) => {
       order: [[orderBy, order]],
     });
 
-    sendSuccess(res, result);
+    return sendSuccess(res, result);
   } catch (error) {
     console.error('getAllDonors error:', error);
-    sendError(res, 'Error fetching donors', HttpStatusCode.INTERNAL_SERVER);
+    return sendError(
+      res,
+      'Error fetching donors',
+      HttpStatusCode.INTERNAL_SERVER
+    );
   }
 };
 
@@ -71,11 +66,15 @@ export const getDonorById = async (req, res) => {
     const { id } = req.params;
     const donor = await LactaneDonor.findByPk(id);
     if (!donor) {
-      sendError(res, 'Donor not found', HttpStatusCode.NOT_FOUND);
+      return sendError(res, 'Donor not found', HttpStatusCode.NOT_FOUND);
     }
-    sendSuccess(res, donor);
+    return sendSuccess(res, donor);
   } catch (error) {
-    sendError(res, 'Error fetching donor', HttpStatusCode.INTERNAL_SERVER);
+    return sendError(
+      res,
+      'Error fetching donor',
+      HttpStatusCode.INTERNAL_SERVER
+    );
   }
 };
 
@@ -117,10 +116,14 @@ export const updateDonor = async (req, res) => {
     // Perform update
     await donor.update(updates);
 
-    sendSuccess(res, donor, 'Lactane Donor updated successfully');
+    return sendSuccess(res, donor, 'Lactane Donor updated successfully');
   } catch (error) {
     console.error('Error updating donor:', error);
-    sendError(res, 'Error updating donor', HttpStatusCode.INTERNAL_SERVER);
+    return sendError(
+      res,
+      'Error updating donor',
+      HttpStatusCode.INTERNAL_SERVER
+    );
   }
 };
 
@@ -130,17 +133,21 @@ export const deleteDonor = async (req, res) => {
     const { id } = req.params;
     const donor = await LactaneDonor.findByPk(id);
     if (!donor) {
-      sendError(res, 'Donor not found', HttpStatusCode.NOT_FOUND);
+      return sendError(res, 'Donor not found', HttpStatusCode.NOT_FOUND);
     }
 
     await donor.destroy();
-    sendSuccess(
+    return sendSuccess(
       res,
       null,
       'Lactane Donor deleted successfully',
       HttpStatusCode.OK
     );
   } catch (error) {
-    sendError(res, 'Error deleting donor', HttpStatusCode.INTERNAL_SERVER);
+    return sendError(
+      res,
+      'Error deleting donor',
+      HttpStatusCode.INTERNAL_SERVER
+    );
   }
 };

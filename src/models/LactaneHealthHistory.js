@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from './index.js';
-import TABLE_PREFIX from '../constants.js/module-table-prefix.js';
+import TABLE_PREFIX from '../constants.js/model-table-prefix.js';
 
 class LactaneHealthHistory extends Model {
   // Define associations here
@@ -15,13 +15,12 @@ class LactaneHealthHistory extends Model {
 LactaneHealthHistory.init(
   {
     history_id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.INTEGER,
       primaryKey: true,
-      allowNull: false,
+      autoIncrement: true,
     },
     donor_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: `${TABLE_PREFIX.LACTANE}donor`, // table name of LactaneDonor
